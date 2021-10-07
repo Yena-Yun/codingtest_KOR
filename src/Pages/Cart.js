@@ -1,10 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
-import MaterialTable, { MTableToolbar, MTableActions } from 'material-table';
+import MaterialTable, { MTableToolbar } from 'material-table';
 
 const Cart = (props) => {
-  let cartData = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
+  const cartData = useSelector((state) => state.cart);
   console.log(cartData);
 
   const HeaderTitle = ({ variant, text }) => (
@@ -109,6 +110,11 @@ const Cart = (props) => {
         ),
       }}
       columns={columns}
+      onRowClick={(e, rowData) => {
+        console.log(rowData);
+        console.log(rowData.id);
+        dispatch({ type: 'removeBeer', payload: rowData });
+      }}
       options={{
         search: false,
         paging: false,

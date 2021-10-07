@@ -8,12 +8,9 @@ import MaterialTable, { MTableToolbar, MTableActions } from 'material-table';
 import { ShoppingCartOutlined, ArrowRightOutlined } from '@ant-design/icons';
 
 const BeerList = () => {
-  let dispatch = useDispatch();
+  const dispatch = useDispatch();
   const history = useHistory();
-  // const [loading, setLoading] = useState(false);
   const [data, setData] = useState(beerdata);
-  const [drag, setDrag] = useState([]);
-  const [selectedRow, setSelectedRow] = useState([]);
 
   const fourToFive = '#34411f';
   const fiveToSix = '#556B2F';
