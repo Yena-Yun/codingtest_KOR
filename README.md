@@ -19,10 +19,9 @@
 
 * 테이블의 column header 는 드래그로 순서 변경이 가능해야 합니다. 바뀐 column header 순서는 redux 에 저장되어 ``/home`` 와 ``/beerlist`` 사이 이동시에 유지되어야 합니다
   - 위 라이브러리에서 드래그 기능을 지원합니다.<br/>
-  
   <br/>
  => 바뀐 column header 순서는 redux 에 저장되지만, BeerList 페이지 화면 상에서 드래그가 되지 않는 버그 발생<br/>
- => 리덕스의 cartData를 그대로 화면에 렌더링하면 되는 Cart 페이지와 달리, <br/>BeerList 페이지는 이미 기존에 렌더링하던 data(맥주 API)가 있는 상태에서 화면을 이동했다가 다시 돌아왔을 때 column header 순서가 바뀌어 있는 데이터로 렌더링해야 하는데 이 부분의 구현이 어려움 <br/>(data={data} 부분을 삼항연산자로 시도했지만 MaterialTable 자체의 문법에 어긋나서 인식하지 못함)
+ => 리덕스의 cartData를 그대로 화면에 렌더링하면 되는 Cart 페이지와 달리 <br/>BeerList 페이지는 이미 기존에 렌더링하던 data(맥주 API)가 있는 상태에서 화면을 이동했다가 다시 돌아왔을 때 column header 순서가 바뀌어 있는 데이터로 렌더링해야 하는데 이 부분의 구현이 어려움 <br/>(data={data} 부분을 삼항연산자로 시도했지만 인식하지 못함)
  
  <br/>
  
