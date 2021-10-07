@@ -7,7 +7,7 @@ const Home = () => {
 
   return (
     <Wrapper>
-      <Title>Tradir BeerShop!</Title>
+      <Title>Tradir BeerShop</Title>
       <MoveBtn
         onClick={() => {
           history.push('/beerlist');
@@ -31,7 +31,7 @@ const Title = styled.h1`
   font-size: 50px;
   font-family: 'Carter One', cursive;
   letter-spacing: 1px;
-  color: #292929;
+  color: #2e0019;
 `;
 
 const MoveBtn = styled.button`

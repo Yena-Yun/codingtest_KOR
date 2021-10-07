@@ -1,30 +1,19 @@
-import React, { useState, useEffect } from 'react';
+/* eslint-disable */
+import React, { useState, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 import beerdata from '../data.json';
+import { useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import MaterialTable, { MTableToolbar, MTableActions } from 'material-table';
-// import { NumberOutlined } from '@ant-design/icons';
+import { ShoppingCartOutlined, ArrowRightOutlined } from '@ant-design/icons';
 
 const BeerList = () => {
+  let dispatch = useDispatch();
+  const history = useHistory();
   // const [loading, setLoading] = useState(false);
   const [data, setData] = useState(beerdata);
-
-  const abvArr = beerdata.map((el) => el.abv);
-  const sortedAbv = abvArr.sort((a, b) => a - b);
-
-  const sortAlchohol = (abv) => {
-    if (abv >= 4 && abv < 5) return setData(data.filter((el) => el.abv >= 4 && el.abv < 5));
-    else if (abv >= 5 && abv < 6) return setData(data.filter((el) => el.abv >= 5 && el.abv < 6));
-    else if (abv >= 6 && abv < 7) return setData(data.filter((el) => el.abv >= 6 && el.abv < 7));
-    else if (abv >= 7 && abv < 8) return setData(data.filter((el) => el.abv >= 7 && el.abv < 8));
-    else if (abv >= 8 && abv < 9) return setData(data.filter((el) => el.abv >= 8 && el.abv < 9));
-    else if (abv >= 9 && abv < 10) return setData(data.filter((el) => el.abv >= 9 && el.abv < 10));
-    else if (abv >= 10 && abv < 11) return setData(data.filter((el) => el.abv >= 10 && el.abv < 11));
-    else if (abv >= 11 && abv < 12) return setData(data.filter((el) => el.abv >= 11 && el.abv < 12));
-    else if (abv >= 12 && abv < 13) return setData(data.filter((el) => el.abv >= 12 && el.abv < 13));
-    else if (abv >= 13 && abv < 14) return setData(data.filter((el) => el.abv >= 13 && el.abv < 14));
-    else if (abv >= 14 && abv < 15) return setData(data.filter((el) => el.abv >= 14 && el.abv < 15));
-    else return setData(data.filter((el) => el.abv >= 15));
-  };
+  const [drag, setDrag] = useState([]);
+  const [selectedRow, setSelectedRow] = useState([]);
 
   const fourToFive = '#34411f';
   const fiveToSix = '#556B2F';
@@ -39,27 +28,106 @@ const BeerList = () => {
   const fourteenToFifteen = '#d65b5b';
   const fifteenAndAbove = '#ee2c2c';
 
-  const HeaderTitle = ({ variant, text }) => (
-    <div
-      variant={variant}
-      style={{
-        whiteSpace: 'nowrap',
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
-        fontSize: '40px',
-        fontWeight: '700',
+  const abvArr = beerdata.map((el) => el.abv);
+  const sortedAbv = abvArr.sort((a, b) => a - b);
+
+  const columns = [
+    {
+      title: 'Image',
+      field: 'imageUrl',
+      cellStyle: {
+        width: 100,
+        minWidth: 100,
         textAlign: 'center',
-        width: '400px',
-        marginBottom: '20px',
-      }}
-    >
-      {text}
-    </div>
-  );
+      },
+      headerStyle: {
+        textAlign: 'center',
+      },
+      render: (data) => <img src={data.image_url} style={{ width: 40, borderRadius: '50%' }} alt='beer' />,
+    },
+    {
+      title: 'Name',
+      field: 'name',
+      cellStyle: {
+        width: 80,
+        minWidth: 80,
+        textAlign: 'center',
+      },
+      headerStyle: {
+        textAlign: 'center',
+      },
+    },
+    {
+      title: 'Description',
+      field: 'description',
+      cellStyle: {
+        width: 350,
+        minWidth: 350,
+      },
+      headerStyle: {
+        textAlign: 'center',
+      },
+    },
+    {
+      title: 'First Brewed',
+      field: 'first_brewed',
+      cellStyle: {
+        width: 80,
+        minWidth: 80,
+        textAlign: 'center',
+      },
+      headerStyle: {
+        textAlign: 'center',
+      },
+    },
+    {
+      title: 'Alchohol Degree',
+      field: 'abv',
+      cellStyle: {
+        width: 80,
+        minWidth: 80,
+        textAlign: 'center',
+      },
+      headerStyle: {
+        textAlign: 'center',
+      },
+    },
+  ];
+
+  // useEffect(() => {
+  //   setDrag([...drag, ...data.map((id) => id)]);
+  // }, [drag, data]);
+
+  const sortAlchohol = (abv) => {
+    if (abv >= 4 && abv < 5) setData(data.filter((el) => el.abv >= 4 && el.abv < 5));
+    else if (abv >= 5 && abv < 6) setData(data.filter((el) => el.abv >= 5 && el.abv < 6));
+    else if (abv >= 6 && abv < 7) setData(data.filter((el) => el.abv >= 6 && el.abv < 7));
+    else if (abv >= 7 && abv < 8) setData(data.filter((el) => el.abv >= 7 && el.abv < 8));
+    else if (abv >= 8 && abv < 9) setData(data.filter((el) => el.abv >= 8 && el.abv < 9));
+    else if (abv >= 9 && abv < 10) setData(data.filter((el) => el.abv >= 9 && el.abv < 10));
+    else if (abv >= 10 && abv < 11) setData(data.filter((el) => el.abv >= 10 && el.abv < 11));
+    else if (abv >= 11 && abv < 12) setData(data.filter((el) => el.abv >= 11 && el.abv < 12));
+    else if (abv >= 12 && abv < 13) setData(data.filter((el) => el.abv >= 12 && el.abv < 13));
+    else if (abv >= 13 && abv < 14) setData(data.filter((el) => el.abv >= 13 && el.abv < 14));
+    else if (abv >= 14 && abv < 15) setData(data.filter((el) => el.abv >= 14 && el.abv < 15));
+    else return setData(data.filter((el) => el.abv >= 15));
+  };
 
   return (
     <MaterialTable
-      title={<HeaderTitle variant='h6' text='BeerList' />}
+      title={
+        <Header>
+          <h1>BeerList</h1>
+          <button
+            onClick={() => {
+              history.push('/cart');
+            }}
+          >
+            Go to Cart &nbsp;
+            <ArrowRightOutlined />
+          </button>
+        </Header>
+      }
       data={data}
       components={{
         Toolbar: (props) => (
@@ -79,7 +147,9 @@ const BeerList = () => {
                 style={{
                   backgroundColor: fourToFive,
                 }}
-                onClick={() => sortAlchohol(sortedAbv.find((el) => el >= 4 && el < 5))}
+                onClick={() => {
+                  sortAlchohol(sortedAbv.find((el) => el >= 4 && el < 5));
+                }}
               >
                 4 - 5
               </Range>
@@ -175,68 +245,12 @@ const BeerList = () => {
           </div>
         ),
       }}
-      columns={[
-        {
-          title: 'Image',
-          field: 'imageUrl',
-          cellStyle: {
-            width: 100,
-            minWidth: 100,
-            textAlign: 'center',
-          },
-          headerStyle: {
-            textAlign: 'center',
-          },
-          render: (data) => <img src={data.image_url} style={{ width: 40, borderRadius: '50%' }} alt='beer' />,
-        },
-        {
-          title: 'Name',
-          field: 'name',
-          cellStyle: {
-            width: 80,
-            minWidth: 80,
-            textAlign: 'center',
-          },
-          headerStyle: {
-            textAlign: 'center',
-          },
-        },
-        {
-          title: 'Description',
-          field: 'description',
-          cellStyle: {
-            width: 350,
-            minWidth: 350,
-          },
-          headerStyle: {
-            textAlign: 'center',
-          },
-        },
-        {
-          title: 'First Brewed',
-          field: 'first_brewed',
-          cellStyle: {
-            width: 80,
-            minWidth: 80,
-            textAlign: 'center',
-          },
-          headerStyle: {
-            textAlign: 'center',
-          },
-        },
-        {
-          title: 'Alchohol Degree',
-          field: 'abv',
-          cellStyle: {
-            width: 80,
-            minWidth: 80,
-            textAlign: 'center',
-          },
-          headerStyle: {
-            textAlign: 'center',
-          },
-        },
-      ]}
+      onRowClick={(e, rowData) => {
+        console.log(rowData);
+        console.log(rowData.id);
+        dispatch({ type: 'addBeer', payload: rowData });
+      }}
+      columns={columns}
       options={{
         draggable: true,
         search: false,
@@ -245,6 +259,36 @@ const BeerList = () => {
     />
   );
 };
+
+const Header = styled.div`
+  position: relative;
+  height: 100px;
+  font-size: 20px;
+  font-weight: 700;
+  width: 1000px;
+  margin-bottom: 20px;
+
+  & h1 {
+    position: absolute;
+    top: 0;
+    left: 40px;
+    font-size: 40px;
+    font-weight: 700;
+  }
+
+  & button {
+    position: absolute;
+    top: 40px;
+    right: 80px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 18px;
+    font-size: 24px;
+    text-decoration: underline;
+  }
+`;
 
 const RangeWrapper = styled.div`
   width: 100%;
