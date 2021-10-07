@@ -13,8 +13,7 @@ const Home = () => {
           history.push('/beerlist');
         }}
       >
-        move to
-        <Strong>BeerList</Strong>
+        move to &nbsp;<strong>BeerList</strong>
       </MoveBtn>
     </Wrapper>
   );
@@ -54,11 +53,6 @@ const MoveBtn = styled.button`
     transform: translateY(1px);
     transition: all 250ms ease-in-out;
   }
-`;
-
-const Strong = styled.span`
-  font-weight: 700;
-  margin-left: 10px;
 `;
 
 export default Home;

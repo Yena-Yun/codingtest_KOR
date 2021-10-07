@@ -6,7 +6,7 @@ import MaterialTable, { MTableToolbar } from 'material-table';
 const Cart = (props) => {
   const dispatch = useDispatch();
   const cartData = useSelector((state) => state.cart);
-  console.log(cartData);
+  console.log(cartData); // 리덕스에서 가져온 장바구니 데이터
 
   const HeaderTitle = ({ variant, text }) => (
     <div
@@ -111,8 +111,6 @@ const Cart = (props) => {
       }}
       columns={columns}
       onRowClick={(e, rowData) => {
-        console.log(rowData);
-        console.log(rowData.id);
         dispatch({ type: 'removeBeer', payload: rowData });
       }}
       options={{
@@ -122,7 +120,5 @@ const Cart = (props) => {
     />
   );
 };
-
-const CartBlock = styled.div``;
 
 export default Cart;

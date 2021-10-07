@@ -5,12 +5,15 @@ import beerdata from '../data.json';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import MaterialTable, { MTableToolbar, MTableActions } from 'material-table';
-import { ShoppingCartOutlined, ArrowRightOutlined } from '@ant-design/icons';
+import { ArrowRightOutlined } from '@ant-design/icons';
 
 const BeerList = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const [data, setData] = useState(beerdata);
+  // 아래 두 줄을 살리면 드래그 결과가 반영된 dragData는 콘솔에 잘 출력되지만 화면에서는 드래그가 되지 않는 버그 발생
+  // let dragData = useSelector((state) => state.drag);
+  // console.log(dragData);
+  let [data, setData] = useState(beerdata);
 
   const fourToFive = '#34411f';
   const fiveToSix = '#556B2F';
@@ -90,10 +93,6 @@ const BeerList = () => {
       },
     },
   ];
-
-  // useEffect(() => {
-  //   setDrag([...drag, ...data.map((id) => id)]);
-  // }, [drag, data]);
 
   const sortAlchohol = (abv) => {
     if (abv >= 4 && abv < 5) setData(data.filter((el) => el.abv >= 4 && el.abv < 5));
@@ -243,11 +242,19 @@ const BeerList = () => {
         ),
       }}
       onRowClick={(e, rowData) => {
-        console.log(rowData);
-        console.log(rowData.id);
         dispatch({ type: 'addBeer', payload: rowData });
       }}
       columns={columns}
+      onColumnDragged={(sourceIndex, destinationIndex) => {
+        const sourceColumn = columns[sourceIndex];
+        const destinationColumn = columns[destinationIndex];
+
+        columns[sourceIndex] = destinationColumn;
+        columns[destinationIndex] = sourceColumn;
+        console.log(columns); // 드래그 결과가 반영된 배열 반환
+
+        dispatch({ type: 'columnDrag', payload: columns });
+      }}
       options={{
         draggable: true,
         search: false,
