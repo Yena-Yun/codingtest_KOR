@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
 import beerdata from '../data.json';
 import MaterialTable, { MTableToolbar, MTableActions } from 'material-table';
 // import { NumberOutlined } from '@ant-design/icons';
