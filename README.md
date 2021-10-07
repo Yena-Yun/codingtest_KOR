@@ -2,6 +2,8 @@
 
 #### ⚓ &nbsp; 구현한 기능
 
+![beerlist](https://user-images.githubusercontent.com/68722179/136402562-580d4663-f6c5-4d12-8b2a-cc7dbc257229.png)
+
 * 유저가 처음 페이지를 열었을 때 ``/home`` 에 도착하도록 만들어 주세요
   - 개인적으로 추가하고 싶은 디자인은 자유롭게 추가하셔도 됩니다 😊
   - 홈페이지에서 ``/beerlist`` 로 링크 이동할 수 있어야 합니다
